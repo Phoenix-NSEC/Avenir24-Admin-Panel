@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -15,8 +16,10 @@ import { TeventDetailsSchema, eventDetailsSchema } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Toaster } from "./ui/toaster";
 
 export default function Home() {
+  const { toast } = useToast();
   const form = useForm<TeventDetailsSchema>({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
@@ -29,17 +32,17 @@ export default function Home() {
   const fileRef = form.register("rulebook");
 
   const onSubmit = async (data: TeventDetailsSchema) => {
-    console.log(data.rulebook[0]);
     const formData = new FormData();
     const requestData = {
       name: data.name,
       description: data.description,
       registrationFees: data.registrationFees,
+      subCategory: data.subCategory,
     };
     formData.append("rulebook", data.rulebook[0]);
     formData.append("data", JSON.stringify(requestData));
     const response = await axios.post(
-      "http://localhost:8000/api/v1/users/register",
+      "http://localhost:4000/api/v1/events/add-events",
       formData,
       {
         headers: {
@@ -49,6 +52,7 @@ export default function Home() {
     );
 
     console.log("File uploaded successfully", response.data);
+
     form.reset();
   };
 
@@ -94,6 +98,23 @@ export default function Home() {
 
         <FormField
           control={form.control}
+          name="subCategory"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-lg text-white">Sub Category</FormLabel>
+              <FormControl>
+                <Input placeholder="Eg: Cybernix" {...field} />
+              </FormControl>
+              <FormDescription className="text-white">
+                Enter the wing under which the event is
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="registrationFees"
           render={({ field }) => (
             <FormItem>
@@ -129,6 +150,10 @@ export default function Home() {
         <Button disabled={form.formState.isSubmitting} type="submit">
           {form.formState.isSubmitting ? "Submitting" : "Submit"}
         </Button>
+        {/* <Toaster /> */}
+        <div className="text-white">
+          Hi{form.formState.isSubmitSuccessful ? <Toaster /> : "fasle"}
+        </div>
       </form>
     </Form>
   );

@@ -1,10 +1,10 @@
 export const events = [
-  "Robonix",
-  "Cybernix",
-  "Illustro",
-  "Eloquence",
-  "Nirmaan",
-  "Fun",
-  "Esports",
-  "Flagship",
+  "robonix",
+  "cybernix",
+  "illustro",
+  "eloquence",
+  "nirmaan",
+  "fun",
+  "esports",
+  "flagship",
 ];

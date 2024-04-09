@@ -1,0 +1,19 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { GoogleAuthProvider, getAuth } from "firebase/auth"
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAaMKTHa7OKptea67UY1z-vHCKUc-hRISo",
+  authDomain: "avenir2k24.firebaseapp.com",
+  projectId: "avenir2k24",
+  storageBucket: "avenir2k24.appspot.com",
+  messagingSenderId: "984874956605",
+  appId: "1:984874956605:web:4d254de49cae9bdce2f754",
+  measurementId: "G-J71JG0PZRC"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();

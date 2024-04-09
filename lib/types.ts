@@ -13,6 +13,8 @@ export const eventDetailsSchema = z.object({
     message: "Registration fees cannot be empty",
   }),
 
+  subCategory: z.string().min(1, { message: "Subcategory cannot be empty" }),
+
   rulebook: z.instanceof(FileList),
 });
 
