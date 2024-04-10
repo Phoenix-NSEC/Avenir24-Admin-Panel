@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Toaster } from "./ui/toaster";
+import { eventURL } from "@/lib/constants";
 
 export default function Home() {
   const { toast } = useToast();
@@ -42,15 +43,11 @@ export default function Home() {
     };
     formData.append("rulebook", data.rulebook[0]);
     formData.append("data", JSON.stringify(requestData));
-    const response = await axios.post(
-      "http://localhost:4000/api/v1/events/add-events",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post(`${eventURL}/add-events`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     console.log("File uploaded successfully", response.data);
 

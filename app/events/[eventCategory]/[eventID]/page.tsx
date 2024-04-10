@@ -2,11 +2,11 @@ import React from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { eventURL } from "@/lib/constants";
+import { FileText } from "lucide-react";
 
-async function getEventDetails(individualEvent: string, eventCategory: string) {
-  const response = await axios.get(
-    `http://localhost:4000/api/v1/events/${eventCategory}/${individualEvent}`
-  );
+async function getEventDetails(id: string, eventCategory: string) {
+  const response = await axios.get(`${eventURL}/${eventCategory}/${id}`);
   return response.data;
 }
 
@@ -19,24 +19,25 @@ function capitalizeFirstLetter(str: string) {
 const page = async ({
   params,
 }: {
-  params: { individualEvent: string; eventCategory: string };
+  params: { eventID: string; eventCategory: string };
 }) => {
-  const encodedEventName = params.individualEvent;
-  const decodedEventName = decodeURIComponent(encodedEventName);
   const eventDetails = await getEventDetails(
-    decodedEventName,
+    params.eventID,
     params.eventCategory
   );
   const rulebookURL = eventDetails.event.rulebook;
-  const eventName = capitalizeFirstLetter(eventDetails.eventName);
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <p>Event name : {eventName}</p>
+    <div className="flex flex-col gap-2 justify-center items-center h-screen">
+      <p>Event name : {eventDetails.event.eventName}</p>
       <p>Description : {eventDetails.event.description}</p>
       <p>Event Category : {eventDetails.event.subCategory}</p>
       <p>Registration Fees : {eventDetails.event.registrationFees}</p>
       <Link href={rulebookURL} target="blank">
-        <Button className="mt-4">Rulebook</Button>
+        <div className="flex gap-1">
+          <p>Rulebook</p>
+          <FileText />
+        </div>
       </Link>
     </div>
   );

@@ -15,7 +15,7 @@ export const eventDetailsSchema = z.object({
 
   subCategory: z.string().min(1, { message: "Subcategory cannot be empty" }),
 
-  rulebook: z.instanceof(FileList),
+  rulebook: z.any(),
 });
 
 export type TeventDetailsSchema = z.infer<typeof eventDetailsSchema>;

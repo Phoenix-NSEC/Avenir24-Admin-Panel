@@ -2,12 +2,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import axios from "axios";
-import EventCard from "@/components/EventCard";
+// import EventCard from "@/components/EventCard";
+import dynamic from "next/dynamic";
+import { eventURL } from "@/lib/constants";
+
+const EventCard = dynamic(() => import("@/components/EventCard"), {
+  ssr: false,
+});
 
 async function getEvents(eventCategory: string) {
-  const response = await axios.get(
-    `http://localhost:4000/api/v1/events/${eventCategory}`
-  );
+  const response = await axios.get(`${eventURL}/${eventCategory}`);
   return response.data;
 }
 
@@ -32,12 +36,14 @@ const eventCategory = async ({
         {eventDetails.events.map((event: any) => {
           return (
             <div key={event._id} className="mt-6">
-              <Link href={`/events/${params.eventCategory}/${event.eventName}`}>
-                <EventCard
-                  name={event.eventName}
-                  description={event.description}
-                />
-              </Link>
+              {/* <Link href={`/events/${params.eventCategory}/${event.eventName}`}> */}
+              <EventCard
+                name={event.eventName}
+                description={event.description}
+                eventCategory={params.eventCategory}
+                id={event._id}
+              />
+              {/* </Link> */}
             </div>
           );
         })}
