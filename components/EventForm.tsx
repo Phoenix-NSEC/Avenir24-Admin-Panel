@@ -26,6 +26,7 @@ export default function Home() {
       name: "",
       description: "",
       registrationFees: "",
+      subCategory: "",
     },
   });
 
@@ -151,9 +152,9 @@ export default function Home() {
           {form.formState.isSubmitting ? "Submitting" : "Submit"}
         </Button>
         {/* <Toaster /> */}
-        <div className="text-white">
+        {/* <div className="text-white">
           Hi{form.formState.isSubmitSuccessful ? <Toaster /> : "fasle"}
-        </div>
+        </div> */}
       </form>
     </Form>
   );

@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Link2Icon } from "lucide-react";
 
 async function getEventDetails(individualEvent: string, eventCategory: string) {
   const response = await axios.get(
