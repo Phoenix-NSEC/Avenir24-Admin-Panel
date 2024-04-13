@@ -76,6 +76,6 @@
   }
 }
 
-body {
-  overflow: hidden;
+.example::-webkit-scrollbar {
+  display: none;
 }

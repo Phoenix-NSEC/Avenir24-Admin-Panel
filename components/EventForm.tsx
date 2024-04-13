@@ -28,6 +28,7 @@ export default function Home() {
       description: "",
       registrationFees: "",
       subCategory: "",
+      coordinators: "",
     },
   });
 
@@ -124,6 +125,26 @@ export default function Home() {
               </FormControl>
               <FormDescription className="text-white">
                 Enter the registration fees for the event
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="coordinators"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-lg text-white">Coordinators</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Eg:John Doe:98xxx, Alice Doe:78xxx"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className="text-white">
+                Enter the coordinators name and contact number
               </FormDescription>
               <FormMessage />
             </FormItem>
