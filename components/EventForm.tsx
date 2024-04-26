@@ -29,30 +29,34 @@ export default function Home() {
       registrationFees: "",
       subCategory: "",
       coordinators: "",
+      date: "",
     },
   });
 
   const fileRef = form.register("rulebook");
 
   const onSubmit = async (data: TeventDetailsSchema) => {
-    const formData = new FormData();
-    const requestData = {
-      name: data.name,
-      description: data.description,
-      registrationFees: data.registrationFees,
-      subCategory: data.subCategory,
-    };
-    formData.append("rulebook", data.rulebook[0]);
-    formData.append("data", JSON.stringify(requestData));
-    const response = await axios.post(`${eventURL}/add-events`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    // const formData = new FormData();
+    // const requestData = {
+    //   name: data.name,
+    //   description: data.description,
+    //   registrationFees: data.registrationFees,
+    //   subCategory: data.subCategory,
+    //   date: data.date,
+    // };
+    // console.log(requestData);
+    // formData.append("rulebook", data.rulebook[0]);
+    // formData.append("data", JSON.stringify(requestData));
+    // const response = await axios.post(`${eventURL}/add-events`, formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
 
-    console.log("File uploaded successfully", response.data);
+    // console.log("File uploaded successfully", response.data);
 
-    form.reset();
+    // form.reset();
+    console.log(data);
   };
 
   return (
@@ -131,7 +135,7 @@ export default function Home() {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="coordinators"
           render={({ field }) => (
@@ -149,7 +153,27 @@ export default function Home() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
+
+        {/* <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-lg text-white">Date</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Prelims Date : 2023-09-21, Finals Date : 2023-09-25"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className="text-white">
+                Enter the prelims and finals date for the event
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        /> */}
 
         <FormField
           control={form.control}

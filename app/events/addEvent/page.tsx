@@ -1,4 +1,5 @@
-import EventForm from "@/components/EventForm";
+import Home from "@/components/EventForm";
+import { ProfileForm } from "@/components/testForm";
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,7 +15,7 @@ const addEvent = () => {
         </Link>
       </div>
       <div className="flex flex-col justify-center items-center w-1/2 h-[100vh]">
-        <EventForm />
+        <ProfileForm />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { date, z } from "zod";
 
 export const eventDetailsSchema = z.object({
   name: z.string().min(2, {
@@ -29,6 +29,9 @@ export const eventDetailsSchema = z.object({
     message: "Prize money cannot be empty",
   }),
 
+  date: z.string().min(1, {
+    message: "Date cannot be empty",
+  }),
   rulebook: z.any(),
 
   imgUrl: z.any(),
