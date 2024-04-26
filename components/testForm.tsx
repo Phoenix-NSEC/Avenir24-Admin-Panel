@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TeventDetailsSchema, eventDetailsSchema } from "@/lib/types";
+import { eventURL } from "@/lib/constants";
 
 export function ProfileForm() {
   // 1. Define your form.
@@ -23,14 +25,13 @@ export function ProfileForm() {
     defaultValues: {
       name: "",
       description: "",
-      registrationFees: "", 
+      registrationFees: "",
       subCategory: "",
-
     },
   });
   const fileRef = form.register("rulebook");
   // 2. Define a submit handler.
-  function onSubmit(data: TeventDetailsSchema) {
+  async function onSubmit(data: TeventDetailsSchema) {
     const formData = new FormData();
     const requestData = {
       name: data.name,
@@ -39,9 +40,18 @@ export function ProfileForm() {
       subCategory: data.subCategory,
     };
     console.log(requestData);
+    console.log(data.rulebook[0]);
     formData.append("rulebook", data.rulebook[0]);
     formData.append("data", JSON.stringify(requestData));
-    console.log(formData)
+    const response = await axios.post(`${eventURL}/add-events`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("File uploaded successfully", response.data);
+
+    form.reset();
   }
 
   return (
@@ -66,7 +76,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-         <FormField
+        <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
@@ -82,7 +92,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-         <FormField
+        <FormField
           control={form.control}
           name="subCategory"
           render={({ field }) => (

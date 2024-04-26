@@ -9,4 +9,4 @@ export const events = [
   "flagship",
 ];
 
-export const eventURL = "http://localhost:4000/api/v1/events";
+export const eventURL = "http://localhost:4001/api/v1/events";
