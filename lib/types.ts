@@ -17,24 +17,24 @@ export const eventDetailsSchema = z.object({
     message: "Subcategory cannot be empty",
   }),
 
-  coordinators: z
-    .string()
-    .regex(/^(\w+\s\w+\s:\s\d{10})(,\s\w+\s\w+\s:\s\d{10})*$/),
+  // coordinators: z
+  //   .string()
+  //   .regex(/^(\w+\s\w+\s:\s\d{10})(,\s\w+\s\w+\s:\s\d{10})*$/),
 
-  particpants: z.string().min(1, {
-    message: "Participants cannot be empty",
-  }),
+  // particpants: z.string().min(1, {
+  //   message: "Participants cannot be empty",
+  // }),
 
-  prizeMoney: z.string().min(1, {
-    message: "Prize money cannot be empty",
-  }),
+  // prizeMoney: z.string().min(1, {
+  //   message: "Prize money cannot be empty",
+  // }),
 
-  date: z.string().min(1, {
-    message: "Date cannot be empty",
-  }),
+  // date: z.string().min(1, {
+  //   message: "Date cannot be empty",
+  // }),
   rulebook: z.any(),
 
-  imgUrl: z.any(),
+  // imgUrl: z.any(),
 });
 
 export type TeventDetailsSchema = z.infer<typeof eventDetailsSchema>;
