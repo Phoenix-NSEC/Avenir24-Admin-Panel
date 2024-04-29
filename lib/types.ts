@@ -17,24 +17,64 @@ export const eventDetailsSchema = z.object({
     message: "Subcategory cannot be empty",
   }),
 
-  // coordinators: z
-  //   .string()
-  //   .regex(/^(\w+\s\w+\s:\s\d{10})(,\s\w+\s\w+\s:\s\d{10})*$/),
+  coordinatorName: z.string(),
 
-  // particpants: z.string().min(1, {
-  //   message: "Participants cannot be empty",
-  // }),
+  coordinatorPhone: z.string(),
 
-  // prizeMoney: z.string().min(1, {
-  //   message: "Prize money cannot be empty",
-  // }),
+  teamsize: z.string().min(1, {
+    message: "Team size cannot be empty",
+  }),
+  prizePool: z.string().min(1, {
+    message: "Prize pool cannot be empty",
+  }),
 
-  // date: z.string().min(1, {
-  //   message: "Date cannot be empty",
-  // }),
+  date: z.string().min(1, {
+    message: "Date cannot be empty",
+  }),
+
   rulebook: z.any(),
 
-  // imgUrl: z.any(),
+  imgUrl: z.any(),
 });
 
 export type TeventDetailsSchema = z.infer<typeof eventDetailsSchema>;
+
+export interface TeamMember {
+  name: string;
+  info: string;
+  _id: string;
+}
+
+export interface Team {
+  _id: string;
+  event: string;
+  teamName: string;
+  teamLeaderName: string;
+  collegeName: string;
+  whatsappNumber: string;
+  alternateNumber: string;
+  email: string;
+  payment: string;
+  isVerified: boolean;
+  members: TeamMember[];
+}
+
+export interface UserDetails {
+  _id: string;
+  event: string;
+  name: string;
+  collegeName: string;
+  whatsappNumber: string;
+  alternateNumber: string;
+  email: string;
+  payment: string;
+  isVerified: boolean;
+  members: Member[];
+  __v: number;
+}
+
+export interface Member {
+  name: string;
+  info: string;
+  _id: string;
+}
