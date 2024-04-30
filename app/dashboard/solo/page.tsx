@@ -15,6 +15,7 @@ import axios from "axios";
 import { UserDetails } from "@/lib/types";
 import Link from "next/link";
 import Image from "next/image";
+import { dashboardURL, verificationURL } from "@/lib/constants";
 const Component = () => {
   const [userData, setUserData] = useState<UserDetails[]>([]);
 
@@ -29,13 +30,10 @@ const Component = () => {
     setUserData(updatedData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:4001/api/v1/verification/solo",
-        {
-          email: userEmail,
-          userId: id,
-        }
-      );
+      const response = await axios.post(`${verificationURL}/solo`, {
+        email: userEmail,
+        userId: id,
+      });
       console.log("Verification request sent successfully:", response.data);
       // Handle success response here
     } catch (error) {
@@ -48,7 +46,7 @@ const Component = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4001/api/v1/dashboard/single-event-details"
+          `${dashboardURL}/single-event-details`
         );
         console.log(response.data.event); // Assuming data is an array of teams
         setUserData(response.data.event);

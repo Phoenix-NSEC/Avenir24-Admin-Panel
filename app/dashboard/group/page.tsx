@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Team } from "@/lib/types";
 import axios from "axios";
 import Link from "next/link";
+import { dashboardURL, verificationURL } from "@/lib/constants";
 
 const Component = () => {
   const [teamData, setTeamData] = useState<Team[]>([]);
@@ -23,7 +24,7 @@ const Component = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4001/api/v1/dashboard/multiple-event-details"
+          `${dashboardURL}/multiple-event-details`
         );
         console.log(response.data.team); // Assuming data is an array of teams
         setTeamData(response.data.team);
@@ -46,13 +47,10 @@ const Component = () => {
     setTeamData(updatedData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:4001/api/v1/verification/multi",
-        {
-          email: userEmail,
-          userId: id,
-        }
-      );
+      const response = await axios.post(`${verificationURL}/multi`, {
+        email: userEmail,
+        userId: id,
+      });
       console.log("Verification request sent successfully:", response.data);
       // Handle success response here
     } catch (error) {
