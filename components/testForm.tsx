@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { ChangeEvent } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,10 +19,63 @@ import { TeventDetailsSchema, eventDetailsSchema } from "@/lib/types";
 import { eventURL } from "@/lib/constants";
 import { useState } from "react";
 import { Plus, Trash } from "lucide-react";
-import { useToast } from "./ui/use-toast";
+import { supabase } from "@/lib/utils/supabase";
 
 export function ProfileForm() {
-  const { toast } = useToast();
+  const [fileURLs, setFileURLs] = useState({
+    rulebookURL: "",
+    posterURL: "",
+  });
+  const handleRulebookUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    let file;
+
+    if (e.target.files) {
+      file = e.target.files[0];
+    }
+
+    const { data, error } = await supabase.storage
+      .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
+      .upload(`rulebooks/${file?.name}`, file!);
+
+    if (data) {
+      const { data: document } = supabase.storage
+        .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
+        .getPublicUrl(data?.path!);
+      console.log(document.publicUrl);
+      setFileURLs((prevState) => ({
+        ...prevState,
+        rulebookURL: document.publicUrl,
+      }));
+    } else {
+      console.log(error);
+    }
+  };
+
+  const handlePosterUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    let file;
+
+    if (e.target.files) {
+      file = e.target.files[0];
+    }
+
+    const { data, error } = await supabase.storage
+      .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
+      .upload(`posters/${file?.name}`, file!);
+
+    if (data) {
+      const { data: image } = supabase.storage
+        .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
+        .getPublicUrl(data?.path!);
+      console.log(image.publicUrl);
+      setFileURLs((prevState) => ({
+        ...prevState,
+        posterURL: image.publicUrl,
+      }));
+    } else {
+      console.log(error);
+    }
+  };
+
   const form = useForm<TeventDetailsSchema>({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
@@ -41,8 +94,6 @@ export function ProfileForm() {
   const [coordinators, setCoordinators] = useState(
     [] as { name: string; number: string }[]
   );
-  const fileRef = form.register("rulebook");
-  const fileRef2 = form.register("imgUrl");
 
   async function onSubmit(data: TeventDetailsSchema) {
     const formData = new FormData();
@@ -55,13 +106,13 @@ export function ProfileForm() {
       prizePool: data.prizePool,
       date: data.date,
       teamsize: data.teamsize,
+      imgUrl: fileURLs.posterURL,
+      rulebook: fileURLs.rulebookURL,
     };
     console.log(requestData);
     console.log(coordinators);
-    console.log(data.imgUrl[0]);
-    console.log(data.rulebook[0]);
-    formData.append("rulebook", data.rulebook[0]);
-    formData.append("imgUrl", data.imgUrl[0]);
+    console.log(fileURLs);
+
     formData.append("data", JSON.stringify(requestData));
     const response = await axios.post(`${eventURL}/add-events`, formData, {
       headers: {
@@ -282,7 +333,13 @@ export function ProfileForm() {
               <FormItem>
                 <FormLabel className="text-lg text-white">Rulebook</FormLabel>
                 <FormControl>
-                  <Input type="file" placeholder="shadcn" {...fileRef} />
+                  <Input
+                    type="file"
+                    placeholder="shadcn"
+                    onChange={(e) => {
+                      handleRulebookUpload(e);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -299,7 +356,13 @@ export function ProfileForm() {
                   Event Poster
                 </FormLabel>
                 <FormControl>
-                  <Input type="file" placeholder="shadcn" {...fileRef2} />
+                  <Input
+                    type="file"
+                    placeholder="shadcn"
+                    onChange={(e) => {
+                      handlePosterUpload(e);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
