@@ -7,6 +7,7 @@ export const events = [
   "fun",
   "esports",
   "flagship",
+  //random
 ];
 
 export const eventURL = "http://localhost:4001/api/v1/events";
