@@ -26,12 +26,15 @@ export function ProfileForm() {
     rulebookURL: "",
     posterURL: "",
   });
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const handleRulebookUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     let file;
 
     if (e.target.files) {
       file = e.target.files[0];
     }
+    setLoading1(true);
 
     const { data, error } = await supabase.storage
       .from(process.env.NEXT_PUBLIC_SUPABASE_BUCKET!)
@@ -46,6 +49,7 @@ export function ProfileForm() {
         ...prevState,
         rulebookURL: document.publicUrl,
       }));
+      setLoading1(false);
     } else {
       console.log(error);
     }
@@ -53,7 +57,7 @@ export function ProfileForm() {
 
   const handlePosterUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     let file;
-
+    setLoading2(true);
     if (e.target.files) {
       file = e.target.files[0];
     }
@@ -71,6 +75,7 @@ export function ProfileForm() {
         ...prevState,
         posterURL: image.publicUrl,
       }));
+      setLoading2(false);
     } else {
       console.log(error);
     }
@@ -181,6 +186,50 @@ export function ProfileForm() {
               <FormMessage />
             </FormItem>
           )}
+        />
+        <FormField
+          control={form.control}
+          name="imgUrl"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel className="text-lg text-white">
+                  Event Poster
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    placeholder="shadcn"
+                    onChange={(e) => {
+                      handlePosterUpload(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="rulebook"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel className="text-lg text-white">Rulebook</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    placeholder="shadcn"
+                    onChange={(e) => {
+                      handleRulebookUpload(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={form.control}
@@ -325,52 +374,10 @@ export function ProfileForm() {
           ))}
         </div>
 
-        <FormField
-          control={form.control}
-          name="rulebook"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel className="text-lg text-white">Rulebook</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    placeholder="shadcn"
-                    onChange={(e) => {
-                      handleRulebookUpload(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <FormField
-          control={form.control}
-          name="imgUrl"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel className="text-lg text-white">
-                  Event Poster
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    placeholder="shadcn"
-                    onChange={(e) => {
-                      handlePosterUpload(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-
-        <Button disabled={form.formState.isSubmitting} type="submit">
+        <Button
+          disabled={form.formState.isSubmitting && loading1 && loading2}
+          type="submit"
+        >
           {form.formState.isSubmitting ? "Submitting" : "Submit"}
         </Button>
       </form>
