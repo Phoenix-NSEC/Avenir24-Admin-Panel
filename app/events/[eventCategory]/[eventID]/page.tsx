@@ -31,29 +31,59 @@ const page = async ({
 
   return (
     <div className="flex flex-col gap-2 justify-center items-center h-screen">
-      <p>Event name : {eventDetails.event.eventName}</p>
-      <p>Description : {eventDetails.event.description}</p>
-      <p>Event Category : {eventDetails.event.subCategory}</p>
+      <p>
+        <b className="text-green-400">Event Name: </b>{" "}
+        {eventDetails.event.eventName}
+      </p>
+      <div className="w-1/2">
+        <p>
+          <b className="text-green-400">Description </b> :{" "}
+          {eventDetails.event.description}
+        </p>
+      </div>
+
+      <p>
+        <b className="text-green-400">Event Category :</b>{" "}
+        {eventDetails.event.subCategory}
+      </p>
       {/* <p>Team Size : {eventDetails.event.teamSize}</p> */}
-      <p>Registration Fees : {eventDetails.event.registrationFees}</p>
-      <p>Date : {eventDetails.event.date}</p>
-      <p>Prize Pool : {eventDetails.event.prizePool}</p>
+      <p>
+        <b className="text-green-400">Registration Fees :</b>{" "}
+        {eventDetails.event.registrationFees}
+      </p>
+      <p>
+        <b className="text-green-400">Date :</b> {eventDetails.event.date}
+      </p>
+      <p>
+        <b className="text-green-400">Prize pool :</b>{" "}
+        {eventDetails.event.prizePool}
+      </p>
       <Link href={rulebookURL} target="blank">
         <div className="flex gap-1">
-          <p>Rulebook</p>
+          <p>
+            <b className="text-green-400">Rulebook</b>
+          </p>
           <FileText />
         </div>
       </Link>
       <Link href={eventPosterURL} target="blank">
         <div className="flex gap-1">
-          <p>Event Poster</p>
+          <p>
+            <b className="text-green-400">Event Poster</b>
+          </p>
           <FileText />
         </div>
       </Link>
       {eventDetails.event.coordinators.map((coordinator: any, index: any) => (
         <div key={index}>
-          <p>Coordinator Name: {coordinator.name}</p>
-          <p>Coordinator Phone: {coordinator.number}</p>
+          <p>
+            <b className="text-green-400">Coordinator Name:</b>{" "}
+            {coordinator.name}
+          </p>
+          <p>
+            <b className="text-green-400">Coordinator Phone:</b>{" "}
+            {coordinator.number}
+          </p>
         </div>
       ))}
     </div>
