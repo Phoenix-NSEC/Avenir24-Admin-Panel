@@ -3,7 +3,7 @@ export const events = [
   "cybernix",
   "illustro",
   "eloquense",
-  "nirmaan",
+  "nirman",
   "fun",
   "esports",
   "flagship",
