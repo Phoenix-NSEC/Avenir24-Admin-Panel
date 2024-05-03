@@ -2,7 +2,7 @@ export const events = [
   "robonix",
   "cybernix",
   "illustro",
-  "eloquence",
+  "eloquense",
   "nirmaan",
   "fun",
   "esports",
