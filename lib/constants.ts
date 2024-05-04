@@ -1,13 +1,44 @@
-export const events = [
-  "robonix",
-  "cybernix",
-  "illustro",
-  "eloquense",
-  "nirman",
-  "fun",
-  "esports",
-  "flagship",
-  //random
+export const eventData = [
+  {
+    eventName: "Cybernix",
+    eventDescription:
+      "Cybernix explores the latest advancements in robotics, AI, and automation. Attendees can participate in workshops, network, and discover cutting-edge technologies.",
+  },
+  {
+    eventName: "Robonix",
+    eventDescription:
+      "Robonix is a robotics competition that challenges students to design, build, and program autonomous robots.",
+  },
+  {
+    eventName: "Eloquense",
+    eventDescription:
+      "Eloquense brings together thought leaders to discuss communication and public speaking trends.",
+  },
+  {
+    eventName: "Nirman",
+    eventDescription:
+      "Nirman showcases the latest advancements in building materials, construction techniques, and project management.",
+  },
+  {
+    eventName: "Fun",
+    eventDescription:
+      "Fun celebrates the joy of entertainment, games, and leisure activities.",
+  },
+  {
+    eventName: "Flagship",
+    eventDescription:
+      "Flagship showcases the latest innovations and breakthroughs in various industries.",
+  },
+  {
+    eventName: "Illustro",
+    eventDescription:
+      "Illustro celebrates the art of illustration, design, and visual storytelling.",
+  },
+  {
+    eventName: "Esports",
+    eventDescription:
+      "Esports showcases the best players and teams in competitive video gaming.",
+  },
 ];
 
 import avatar from "@/public/avatar.webp";
