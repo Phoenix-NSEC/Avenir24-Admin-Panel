@@ -20,7 +20,7 @@ export default function Landing() {
       <div className="container max-w-5xl px-4 md:px-6 text-center space-y-6">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-5xl">
-            "AVENIR &apos;24 - The Official Tech Fest of NSEC"
+            AVENIR &apos;24 - The Official Tech Fest of NSEC
           </h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
             Explore the latest technology trends, network with industry leaders,
