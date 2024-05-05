@@ -1,4 +1,8 @@
 "use client";
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,14 +14,14 @@ import {
   Table,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { UserDetails } from "@/lib/types";
-import Link from "next/link";
 import Image from "next/image";
 import { dashboardURL, verificationURL } from "@/lib/constants";
+import Loading from "@/components/loading";
+
 const Component = () => {
   const [userData, setUserData] = useState<UserDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleClick = async (id: string, userEmail: string, index: number) => {
     const updatedData = userData.map((user, i) => {
@@ -48,15 +52,18 @@ const Component = () => {
         const response = await axios.get(
           `${dashboardURL}/single-event-details`
         );
-        console.log(response.data.event); // Assuming data is an array of teams
+        console.log(response.data.event);
         setUserData(response.data.event);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen">
@@ -71,13 +78,13 @@ const Component = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="h-4 w-4 "
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
                   />
                 </svg>
@@ -91,46 +98,50 @@ const Component = () => {
               <Input className="rounded-full" placeholder="Search by name" />
             </div>
           </div>
-          <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50px]">ID</TableHead>
-                  <TableHead className="w-[150px]">Full Name</TableHead>
-                  <TableHead className="w-[150px]">Event Name</TableHead>
-                  <TableHead className="w-[150px]">Email ID</TableHead>
-                  <TableHead className="w-[100px]">Status</TableHead>
-                  <TableHead className="w-[100px]">Action</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {userData.map((user: UserDetails, index) => (
-                  <TableRow key={user._id}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.event}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      <Badge
-                        onClick={() => {
-                          handleClick(user._id, user.email, index);
-                        }}
-                        className="cursor-pointer"
-                        variant={user.isVerified ? "default" : "destructive"}
-                      >
-                        {user.isVerified ? "Verified" : "Verify"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Link href={user.payment} target="_blank">
-                        <Button variant="outline">Receipt</Button>
-                      </Link>
-                    </TableCell>
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[50px]">ID</TableHead>
+                    <TableHead className="w-[150px]">Full Name</TableHead>
+                    <TableHead className="w-[150px]">Event Name</TableHead>
+                    <TableHead className="w-[150px]">Email ID</TableHead>
+                    <TableHead className="w-[100px]">Status</TableHead>
+                    <TableHead className="w-[100px]">Action</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {userData.map((user: UserDetails, index) => (
+                    <TableRow key={user._id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.event}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>
+                        <Badge
+                          onClick={() => {
+                            handleClick(user._id, user.email, index);
+                          }}
+                          className="cursor-pointer"
+                          variant={user.isVerified ? "default" : "destructive"}
+                        >
+                          {user.isVerified ? "Verified" : "Verify"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Link href={user.payment} target="_blank">
+                          <Button variant="outline">Receipt</Button>
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </div>
       </div>
     </>

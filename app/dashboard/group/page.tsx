@@ -1,8 +1,10 @@
 "use client";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { dashboardURL, verificationURL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
 import {
   TableHead,
   TableRow,
@@ -13,12 +15,11 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Team } from "@/lib/types";
-import axios from "axios";
-import Link from "next/link";
-import { dashboardURL, verificationURL } from "@/lib/constants";
+import Loading from "@/components/loading";
 
 const Component = () => {
   const [teamData, setTeamData] = useState<Team[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // Initially set loading to true
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,10 +27,12 @@ const Component = () => {
         const response = await axios.get(
           `${dashboardURL}/multiple-event-details`
         );
-        console.log(response.data.team); // Assuming data is an array of teams
+        console.log(response.data.team);
         setTeamData(response.data.team);
+        setLoading(false); // Once data is fetched, set loading to false
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false in case of error as well
       }
     };
 
@@ -58,6 +61,7 @@ const Component = () => {
       // Handle error here
     }
   };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen">
       <div className="flex flex-col">
@@ -71,12 +75,12 @@ const Component = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="h-4 w-4 "
               >
                 <path
-                  stroke-linecap="round"
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                   d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
                 />
@@ -91,46 +95,50 @@ const Component = () => {
             <Input className="rounded-full" placeholder="Search by name" />
           </div>
         </div>
-        <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50px]">Sl No</TableHead>
-                <TableHead className="w-[150px]">Team Leader Name</TableHead>
-                <TableHead className="w-[150px]">Event Name</TableHead>
-                <TableHead className="w-[150px]">Email ID</TableHead>
-                <TableHead className="w-[100px]">Status</TableHead>
-                <TableHead className="w-[100px]">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {teamData.map((user: Team, index) => (
-                <TableRow key={user._id}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{user.teamLeaderName}</TableCell>
-                  <TableCell>{user.event}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Badge
-                      onClick={() => {
-                        handleClick(user._id, user.email, index);
-                      }}
-                      className="cursor-pointer"
-                      variant={user.isVerified ? "default" : "destructive"}
-                    >
-                      {user.isVerified ? "Verified" : "Verify"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Link href={user.payment} target="_blank">
-                      <Button variant="outline">Receipt</Button>
-                    </Link>
-                  </TableCell>
+        {loading ? ( // Check if loading is true
+          <Loading /> // Show loading component
+        ) : (
+          <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px]">Sl No</TableHead>
+                  <TableHead className="w-[150px]">Team Leader Name</TableHead>
+                  <TableHead className="w-[150px]">Event Name</TableHead>
+                  <TableHead className="w-[150px]">Email ID</TableHead>
+                  <TableHead className="w-[100px]">Status</TableHead>
+                  <TableHead className="w-[100px]">Action</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+              </TableHeader>
+              <TableBody>
+                {teamData.map((user: Team, index) => (
+                  <TableRow key={user._id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{user.teamLeaderName}</TableCell>
+                    <TableCell>{user.event}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <Badge
+                        onClick={() => {
+                          handleClick(user._id, user.email, index);
+                        }}
+                        className="cursor-pointer"
+                        variant={user.isVerified ? "default" : "destructive"}
+                      >
+                        {user.isVerified ? "Verified" : "Verify"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Link href={user.payment} target="_blank">
+                        <Button variant="outline">Receipt</Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </div>
     </div>
   );
