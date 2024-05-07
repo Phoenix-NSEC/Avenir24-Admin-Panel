@@ -3,10 +3,29 @@
  * @see https://v0.dev/t/S1SVfJY62ug
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
+"use client";
+import { auth } from "@/firebase.config";
 import { eventData } from "@/lib/constants";
+import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function Events() {
+  const router = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        if (userAuth.email != "mail.phoenixnsec@gmail.com")
+          router.push("/denied");
+        else router.push("/events");
+      } else {
+        router.push("/login");
+      }
+    });
+  }, [router]);
+
   return (
     <main className="container mx-auto py-12 px-4 md:px-6">
       <h1 className="mb-8 text-3xl font-bold">Events</h1>

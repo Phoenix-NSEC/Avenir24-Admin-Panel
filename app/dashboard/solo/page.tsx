@@ -18,6 +18,9 @@ import { UserDetails } from "@/lib/types";
 import Image from "next/image";
 import { dashboardURL, verificationURL } from "@/lib/constants";
 import Loading from "@/components/loading";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase.config";
 
 const Component = () => {
   const [userData, setUserData] = useState<UserDetails[]>([]);
@@ -46,7 +49,17 @@ const Component = () => {
     }
   };
 
+  const router = useRouter();
   useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        if (userAuth.email != "mail.phoenixnsec@gmail.com")
+          router.push("/denied");
+        else router.push("/dashboard/solo");
+      } else {
+        router.push("/login");
+      }
+    });
     const fetchData = async () => {
       try {
         const response = await axios.get(

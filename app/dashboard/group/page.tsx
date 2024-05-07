@@ -16,12 +16,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Team } from "@/lib/types";
 import Loading from "@/components/loading";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase.config";
 
 const Component = () => {
   const [teamData, setTeamData] = useState<Team[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Initially set loading to true
 
+  const router = useRouter();
   useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        if (userAuth.email != "mail.phoenixnsec@gmail.com")
+          router.push("/denied");
+        else router.push("/dashboard/group");
+      } else {
+        router.push("/login");
+      }
+    });
     const fetchData = async () => {
       try {
         const response = await axios.get(

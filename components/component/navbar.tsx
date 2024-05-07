@@ -10,12 +10,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import logo from "@/public/logo.png";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase.config";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const pathName = usePathname();
+  console.log(pathName);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const router = useRouter();
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        router.push("/login");
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -53,6 +68,13 @@ export function Navbar() {
           href="/events/addEvent"
         >
           Add Events
+        </Link>
+        <Link
+          className="hover:underline hover:underline-offset-4"
+          href="#"
+          onClick={handleLogout}
+        >
+          Logout
         </Link>
       </nav>
       {/* Mobile Menu Button */}
@@ -106,6 +128,13 @@ export function Navbar() {
                 href="#"
               >
                 Add Events
+              </Link>
+              <Link
+                className="hover:underline hover:underline-offset-4"
+                href="#"
+                onClick={handleLogout}
+              >
+                Logout
               </Link>
             </nav>
           </div>

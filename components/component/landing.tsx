@@ -3,6 +3,8 @@
  * @see https://v0.dev/t/FSlFzvNpV5U
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
+
+"use client";
 import Link from "next/link";
 import {
   CardTitle,
@@ -13,8 +15,26 @@ import {
 } from "@/components/ui/card";
 import { AvatarImage, Avatar } from "@/components/ui/avatar";
 import { speakers } from "@/lib/constants";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase.config";
 
 export default function Landing() {
+  const router = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        if (userAuth.email != "mail.phoenixnsec@gmail.com")
+          router.push("/denied");
+        else router.push("/");
+      } else {
+        router.push("/login");
+      }
+    });
+  }, [router]);
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-12 md:py-24 lg:py-32">
       <div className="container max-w-5xl px-4 md:px-6 text-center space-y-6">
@@ -35,7 +55,7 @@ export default function Landing() {
             View Registrations
           </Link>
           <Link
-            className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+            className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50  dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
             href="#"
           >
             Avenir&apos;24 Official Website
