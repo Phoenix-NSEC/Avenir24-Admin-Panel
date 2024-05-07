@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const addEvent = () => {
+const AddEvent = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -37,4 +37,4 @@ const addEvent = () => {
   );
 };
 
-export default addEvent;
+export default AddEvent;
