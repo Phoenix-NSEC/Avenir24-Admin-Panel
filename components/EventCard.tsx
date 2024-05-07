@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Info, Pencil, Trash2 } from "lucide-react";
+import { Download, Info, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
-import { eventURL } from "@/lib/constants";
+import { dashboardURL, eventURL } from "@/lib/constants";
 import { set } from "firebase/database";
 
 interface EventCardProps {
@@ -31,6 +31,55 @@ const EventCard = ({
       return description;
     }
   }
+  const handleDownloadClick = async () => {
+    try {
+      const response = await axios.post(`${dashboardURL}/getCSVData`, {
+        name: name,
+      });
+      let csvData = response.data.data;
+
+      // Check if 'members' field exists in the data
+      if (csvData.some((item) => item.members)) {
+        // Extract member names and infos from 'members' array
+        csvData = csvData.map((item) => {
+          const { members, ...rest } = item;
+          const memberInfo = members.map((member, index) => ({
+            [`member${index + 1}_name`]: member.name,
+            [`member${index + 1}_info`]: member.info,
+          }));
+          return { ...rest, ...Object.assign({}, ...memberInfo) };
+        });
+      }
+
+      // Remove unwanted fields (_id, payment, __v) from the data
+      csvData = csvData.map((item) => {
+        const { _id, payment, __v, isVerified, ...rest } = item;
+        return rest;
+      });
+
+      const csvContent = convertToCSV(csvData);
+      downloadCSV(csvContent, "event_data.csv");
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+  };
+
+  const convertToCSV = (data: any[]) => {
+    const headers = Object.keys(data[0]).join(",");
+    const csvRows = data.map((row) => Object.values(row).join(","));
+    return `${headers}\n${csvRows.join("\n")}`;
+  };
+
+  const downloadCSV = (content: string, filename: string) => {
+    const blob = new Blob([content], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+  };
 
   const handleDeleteClick = async (id: string) => {
     console.log(id);
@@ -54,10 +103,11 @@ const EventCard = ({
         {shortenDescription(description, 100)}
       </p>
       <div className="flex gap-2">
-        <Button variant={"default"}>
-          <Pencil size={16} />
+        <Button variant={"default"} onClick={handleDownloadClick}>
+          <Download size={16} />
         </Button>
         <Button
+          disabled={true}
           onClick={() => {
             handleDeleteClick(id);
           }}
