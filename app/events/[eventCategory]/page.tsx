@@ -29,11 +29,11 @@ const eventCategory = async ({
           params.eventCategory.slice(1)}
       </p>
 
-      <Link href={`/events/addEvent`}>
-        <Button disabled={true} className="">
-          Add new event
-        </Button>
-      </Link>
+      {/* <Link href={`/events/addEvent`}> */}
+      <Button disabled={true} className="">
+        Add new event
+      </Button>
+      {/* </Link> */}
       <div className="grid grid-cols-2 gap-4">
         {eventDetails.events.map((event: any) => {
           return (
