@@ -17,7 +17,7 @@ function Login() {
     signInWithPopup(auth, provider)
       .then((result: UserCredential) => {
         console.log(result);
-        if (result.user.email != "mail.phoenixnsec@gmail.com")
+        if (result.user.email != "mail.avenirphoenix@gmail.com")
           router.push("/denied");
         else router.push("/");
       })
