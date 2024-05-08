@@ -52,7 +52,13 @@ const Component = () => {
     fetchData();
   }, []);
 
-  const handleClick = async (id: string, userEmail: string, index: number) => {
+  const handleClick = async (
+    id: string,
+    userEmail: string,
+    participantName: string,
+    eventName: string,
+    index: number
+  ) => {
     const updatedData = teamData.map((team, i) => {
       if (i === index) {
         return { ...team, isVerified: !team.isVerified };
@@ -61,11 +67,13 @@ const Component = () => {
     });
 
     setTeamData(updatedData);
-
+    console.log(id, userEmail, participantName, eventName, index);
     try {
       const response = await axios.post(`${verificationURL}/multi`, {
         email: userEmail,
         userId: id,
+        participantName: participantName,
+        eventName: eventName,
       });
       console.log("Verification request sent successfully:", response.data);
       // Handle success response here
@@ -133,7 +141,13 @@ const Component = () => {
                     <TableCell>
                       <Badge
                         onClick={() => {
-                          handleClick(user._id, user.email, index);
+                          handleClick(
+                            user._id,
+                            user.email,
+                            user.teamLeaderName,
+                            user.event,
+                            index
+                          );
                         }}
                         className="cursor-pointer"
                         variant={user.isVerified ? "default" : "destructive"}

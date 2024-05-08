@@ -26,7 +26,13 @@ const Component = () => {
   const [userData, setUserData] = useState<UserDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleClick = async (id: string, userEmail: string, index: number) => {
+  const handleClick = async (
+    id: string,
+    userEmail: string,
+    participantName: string,
+    eventName: string,
+    index: number
+  ) => {
     const updatedData = userData.map((user, i) => {
       if (i === index) {
         return { ...user, isVerified: !user.isVerified };
@@ -35,11 +41,13 @@ const Component = () => {
     });
 
     setUserData(updatedData);
-
+    console.log(userEmail, id, participantName, eventName, index);
     try {
       const response = await axios.post(`${verificationURL}/solo`, {
         email: userEmail,
         userId: id,
+        participantName: participantName,
+        eventName: eventName,
       });
       console.log("Verification request sent successfully:", response.data);
       // Handle success response here
@@ -136,7 +144,13 @@ const Component = () => {
                       <TableCell>
                         <Badge
                           onClick={() => {
-                            handleClick(user._id, user.email, index);
+                            handleClick(
+                              user._id,
+                              user.email,
+                              user.name,
+                              user.event,
+                              index
+                            );
                           }}
                           className="cursor-pointer"
                           variant={user.isVerified ? "default" : "destructive"}
