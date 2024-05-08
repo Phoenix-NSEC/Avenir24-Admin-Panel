@@ -50,8 +50,7 @@ export const dashboardURL =
   "https://avenir24-backend.vercel.app/api/v1/dashboard";
 
 export const verificationURL =
-  // "https://avenir24-backend.vercel.app/api/v1/verification";
-  "https://localhost:4001/api/v1/verification";
+  "https://avenir24-backend.vercel.app/api/v1/verification";
 
 export const speakers = [
   {
