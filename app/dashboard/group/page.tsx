@@ -28,8 +28,7 @@ const Component = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        if (userAuth.email != "mail.avenirphoenix@gmail.com")
-          router.push("/denied");
+        if (userAuth.email != "abhinilnath10@gmail.com") router.push("/denied");
         else router.push("/dashboard/group");
       } else {
         router.push("/login");

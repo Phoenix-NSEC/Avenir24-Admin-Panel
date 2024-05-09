@@ -17,9 +17,12 @@ function Login() {
     signInWithPopup(auth, provider)
       .then((result: UserCredential) => {
         console.log(result);
-        if (result.user.email != "mail.avenirphoenix@gmail.com")
-          router.push("/denied");
-        else router.push("/");
+        if (
+          result.user.email === "mail.avenirphoenix@gmail.com" ||
+          result.user.email === "abhinilnath@gmail.com"
+        ) {
+          router.push("/");
+        } else router.push("/denied");
       })
       .catch((error) => {
         alert("Login Failed");
