@@ -19,7 +19,7 @@ function Login() {
         console.log(result);
         if (
           result.user.email === "mail.avenirphoenix@gmail.com" ||
-          result.user.email === "abhinilnath@gmail.com"
+          result.user.email === "phoenix.techo2020@gmail.com"
         ) {
           router.push("/");
         } else router.push("/denied");
