@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Download, Info, Pencil, Trash2 } from "lucide-react";
+import { Download, Info, Pencil, Trash2, UsersIcon } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
 import { dashboardURL, eventURL } from "@/lib/constants";
@@ -37,6 +37,7 @@ const EventCard = ({
         name: name,
       });
       let csvData = response.data.data;
+      console.log(csvData);
 
       // Check if 'members' field exists in the data
       if (csvData.some((item) => item.members)) {
@@ -118,6 +119,11 @@ const EventCard = ({
         <Link href={`/events/${eventCategory}/${id}`}>
           <Button>
             <Info />
+          </Button>
+        </Link>
+        <Link href={`/${name}`}>
+          <Button>
+            <UsersIcon />
           </Button>
         </Link>
       </div>
