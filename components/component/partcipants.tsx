@@ -48,33 +48,29 @@ const Participants: React.FC<{ name: string }> = ({ name }) => {
   }, [name]); // Include name in dependency array
 
   return (
-    <main className="w-full max-w-5xl mx-auto py-12 px-4 md:px-6">
+    <main className="md:w-full w-screen md:max-w-5xl md:mx-auto md:py-12  md:px-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-center">{name}</h1>
       </header>
-      <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+      <div className="overflow-x-auto">
         {loading ? (
           <Loading />
         ) : (
-          <Table>
+          <Table className="w-full">
             <TableHeader>
-              <TableRow className="p-2">
+              <TableRow>
                 <TableHead>Sl No</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>College</TableHead>
                 <TableHead>Phone</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="p-2">
+            <TableBody>
               {/* Map over the userData array to render each row */}
               {userData.map((user, index) => (
-                <TableRow key={index} className="border-b p-[20px]">
+                <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <div className="text-sm font-medium">{user.name}</div>
-                    </div>
-                  </TableCell>
+                  <TableCell>{user.name}</TableCell>
                   <TableCell>{user.college}</TableCell>
                   <TableCell>{user.phone}</TableCell>
                 </TableRow>

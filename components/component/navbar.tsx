@@ -105,7 +105,7 @@ export function Navbar() {
               </Link>
               <Link
                 className="hover:underline hover:underline-offset-4"
-                href="#"
+                href="/events"
               >
                 Events
               </Link>
