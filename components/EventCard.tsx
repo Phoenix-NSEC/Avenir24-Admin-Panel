@@ -31,10 +31,21 @@ const EventCard = ({
       return description;
     }
   }
+  function handleURL(url: string): string {
+    // Decode the URL component
+    const decodedURL = decodeURIComponent(url);
+
+    // Remove text within parentheses from the decoded URL
+    const cleanedURL = decodedURL.replace(/\([^()]*\)/g, "");
+
+    return cleanedURL;
+  }
   const handleDownloadClick = async () => {
     try {
+      const eventname = handleURL(name);
+      console.log("name from csv component", eventname);
       const response = await axios.post(`${dashboardURL}/getCSVData`, {
-        name: name,
+        name: eventname,
       });
       let csvData = response.data.data;
       console.log(csvData);
@@ -96,7 +107,7 @@ const EventCard = ({
   return (
     <div className="max-w-sm h-[200px] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
           {name}
         </h5>
       </a>

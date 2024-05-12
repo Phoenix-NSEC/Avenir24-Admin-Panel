@@ -2,9 +2,20 @@ import Partcipants from "@/components/component/partcipants";
 import React from "react";
 
 const page = ({ params }: { params: { eventName: string } }) => {
+  function handleURL(url: string): string {
+    // Decode the URL component
+    const decodedURL = decodeURIComponent(url);
+
+    // Remove text within parentheses from the decoded URL
+    const cleanedURL = decodedURL.replace(/\([^()]*\)/g, "");
+
+    return cleanedURL;
+  }
+  const eventName = handleURL(params.eventName);
+  console.log("from component", eventName);
   return (
     <div>
-      <Partcipants name={decodeURIComponent(params.eventName)} />
+      <Partcipants name={eventName} />
     </div>
   );
 };

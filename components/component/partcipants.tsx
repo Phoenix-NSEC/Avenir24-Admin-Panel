@@ -25,10 +25,10 @@ const Participants: React.FC<{ name: string }> = ({ name }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post<{ data: UserData[] }>(
-          `${dashboardURL}/getCSVData`,
-          { name }
-        );
+        console.log("name from particpants", name);
+        const response = await axios.post(`${dashboardURL}/getCSVData`, {
+          name,
+        });
         console.log(response.data.data);
         const extractedData = response.data.data.map((item: any) => ({
           name: item.name || item.teamLeaderName,
