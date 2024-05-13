@@ -66,7 +66,7 @@ const EventCard = ({
 
       // Remove unwanted fields (_id, payment, __v) from the data
       csvData = csvData.map((item) => {
-        const { _id, payment, __v, isVerified, ...rest } = item;
+        const { _id, payment, __v, ...rest } = item;
         return rest;
       });
 
