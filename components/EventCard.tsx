@@ -32,10 +32,11 @@ const EventCard = ({
     }
   }
   function handleURL(url: string): string {
-    // Decode the URL component
     const decodedURL = decodeURIComponent(url);
 
-    // Remove text within parentheses from the decoded URL
+    if (decodedURL === "eFootball (PES Mobile)") {
+      return "eFootball (PES Mobile)";
+    }
     const cleanedURL = decodedURL.replace(/\([^()]*\)/g, "");
 
     return cleanedURL;

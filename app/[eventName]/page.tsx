@@ -5,7 +5,9 @@ const page = ({ params }: { params: { eventName: string } }) => {
   function handleURL(url: string): string {
     // Decode the URL component
     const decodedURL = decodeURIComponent(url);
-
+    if (decodedURL === "eFootball (PES Mobile)") {
+      return "eFootball (PES Mobile)";
+    }
     // Remove text within parentheses from the decoded URL
     const cleanedURL = decodedURL.replace(/\([^()]*\)/g, "");
 
