@@ -23,11 +23,14 @@ interface UserData {
 const Participants: React.FC<{ name: string }> = ({ name }) => {
   const [userData, setUserData] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
-
+  if (name === "Dimensional Discourse ") {
+    name = name.trim();
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("name from particpants", name);
+
         const response = await axios.post(`${dashboardURL}/getCSVData`, {
           name,
         });

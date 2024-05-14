@@ -43,8 +43,11 @@ const EventCard = ({
   }
   const handleDownloadClick = async () => {
     try {
-      const eventname = handleURL(name);
-      console.log("name from csv component", eventname);
+      let eventname = handleURL(name);
+      if (eventname === "Dimensional Discourse ") {
+        eventname = eventname.trim();
+      }
+      console.log("name from csv component", eventname, eventname.length);
       const response = await axios.post(`${dashboardURL}/getCSVData`, {
         name: eventname,
       });
