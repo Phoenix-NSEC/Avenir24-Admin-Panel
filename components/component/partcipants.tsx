@@ -16,6 +16,8 @@ interface UserData {
   name: string;
   college: string;
   phone: string;
+  teamName?: string; // Make teamName optional
+  isVerified?: boolean; // Add isVerified field
 }
 
 const Participants: React.FC<{ name: string }> = ({ name }) => {
@@ -34,6 +36,8 @@ const Participants: React.FC<{ name: string }> = ({ name }) => {
           name: item.name || item.teamLeaderName,
           college: item.collegeName,
           phone: item.whatsappNumber,
+          teamName: item.teamName, // Extract teamName if it exists
+          isVerified: item.isVerified,
         }));
         console.log(extractedData);
         setUserData(extractedData);
@@ -63,16 +67,27 @@ const Participants: React.FC<{ name: string }> = ({ name }) => {
                 <TableHead>Name</TableHead>
                 <TableHead>College</TableHead>
                 <TableHead>Phone</TableHead>
+                {userData.some((user) => user.teamName) && (
+                  <TableHead>Team Name</TableHead>
+                )}
+                <TableHead>Verified</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
-              {/* Map over the userData array to render each row */}
               {userData.map((user, index) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.college}</TableCell>
                   <TableCell>{user.phone}</TableCell>
+                  {/* Render teamName if it exists, otherwise render an empty cell */}
+                  {user.teamName ? (
+                    <TableCell>{user.teamName}</TableCell>
+                  ) : (
+                    <TableCell></TableCell>
+                  )}
+                  <TableCell>{user.isVerified ? "Yes" : "No"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
