@@ -49,7 +49,7 @@ export function Navbar() {
         >
           Events
         </Link>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-1 hover:underline hover:underline-offset-4">
             Dashboard
             <ChevronDownIcon className="h-4 w-4" />
@@ -62,13 +62,13 @@ export function Navbar() {
               <Link href="/dashboard/group">Group</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
-        <Link
+        </DropdownMenu> */}
+        {/* <Link
           className="hover:underline hover:underline-offset-4"
           href="/events/addEvent"
         >
           Add Events
-        </Link>
+        </Link> */}
         <Link
           className="hover:underline hover:underline-offset-4"
           href="#"

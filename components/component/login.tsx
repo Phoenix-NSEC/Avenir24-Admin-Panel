@@ -18,8 +18,8 @@ function Login() {
       .then((result: UserCredential) => {
         console.log(result);
         if (
-          result.user.email === "mail.avenirphoenix@gmail.com" ||
-          result.user.email === "phoenix.techo2020@gmail.com"
+          result.user.email === "dasguptasebanti2003@gmail.com" ||
+          result.user.email === "kundusubhajit73@gmail.com"
         ) {
           router.push("/");
         } else router.push("/denied");

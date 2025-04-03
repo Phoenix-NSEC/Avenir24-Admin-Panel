@@ -58,12 +58,18 @@ const Component = () => {
   };
 
   const router = useRouter();
+  const allowedEmails = [
+    "dasguptasebanti2003@gmail.com",
+    "kundusubhajit73@gmail.com",
+  ];
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        if (userAuth.email != "phoenix.techo2020@gmail.com")
+        if (!allowedEmails.includes(userAuth.email as string)) {
           router.push("/denied");
-        else router.push("/dashboard/solo");
+        } else {
+          router.push("/dashboard/solo");
+        }
       } else {
         router.push("/login");
       }

@@ -15,11 +15,17 @@ export function Events() {
   const router = useRouter();
 
   useEffect(() => {
+    const allowedEmails = [
+      "dasguptasebanti2003@gmail.com",
+      "kundusubhajit73@gmail.com",
+    ];
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        if (userAuth.email != "mail.avenirphoenix@gmail.com")
+        if (!allowedEmails.includes(userAuth.email as string)) {
           router.push("/denied");
-        else router.push("/events");
+        } else {
+          router.push("/events");
+        }
       } else {
         router.push("/login");
       }

@@ -24,11 +24,17 @@ export default function Landing() {
   const router = useRouter();
 
   useEffect(() => {
+    const allowedEmails = [
+      "dasguptasebanti2003@gmail.com",
+      "kundusubhajit73@gmail.com",
+    ];
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        if (userAuth.email != "mail.avenirphoenix@gmail.com")
+        if (!allowedEmails.includes(userAuth.email as string)) {
           router.push("/denied");
-        else router.push("/");
+        } else {
+          router.push("/");
+        }
       } else {
         router.push("/login");
       }
@@ -39,7 +45,7 @@ export default function Landing() {
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-12 md:py-24 lg:py-32">
       <div className="container max-w-5xl px-4 md:px-6 text-center space-y-6">
         <div className="space-y-3">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-5xl">
+          <h1 className="text-3xl text-white font-bold tracking-tighter sm:text-5xl md:text-5xl">
             AVENIR &apos;24 - The Official Tech Fest of NSEC
           </h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
@@ -50,19 +56,19 @@ export default function Landing() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-            href="#"
+            href="/dashboard/solo"
           >
-            View Registrations
+            Dashboard as Solo
           </Link>
           <Link
-            className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50  dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-            href="https://www.avenirnsec.live/"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+            href="/dashboard/group"
           >
-            Avenir&apos;24 Official Website
+            Dashboard as Group
           </Link>
         </div>
       </div>
-      <div className="mt-12 md:mt-24 lg:mt-32 w-full max-w-5xl px-4 md:px-6">
+      {/* <div className="mt-12 md:mt-24 lg:mt-32 w-full max-w-5xl px-4 md:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
@@ -70,7 +76,7 @@ export default function Landing() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4 justify-items-center">
-                {/* Mapping over the speakers array to generate speaker cards */}
+                 Mapping over the speakers array to generate speaker cards 
                 {speakers.map((speaker, index) => (
                   <div
                     key={index}
@@ -209,7 +215,7 @@ export default function Landing() {
             </CardFooter>
           </Card>
         </div>
-      </div>
+      </div>*/}
     </main>
   );
 }

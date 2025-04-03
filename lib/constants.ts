@@ -44,13 +44,16 @@ export const eventData = [
 import avatar from "@/public/avatar.webp";
 // export const eventURL = "http://localhost:4001/api/v1/events";
 
-export const eventURL = "https://avenir24-backend.vercel.app/api/v1/events";
+//deplyed old avenir backend link https://avenir24-backend.vercel.app/
+
+const local="http://localhost:4000/"
+export const eventURL = `${local}api/v1/events`;
 
 export const dashboardURL =
-  "https://avenir24-backend.vercel.app/api/v1/dashboard";
+  `${local}api/v1/dashboard`;
 
 export const verificationURL =
-  "https://avenir24-backend.vercel.app/api/v1/verification";
+  `${local}api/v1/verification`;
 
 export const speakers = [
   {

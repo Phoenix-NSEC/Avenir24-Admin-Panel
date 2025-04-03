@@ -25,12 +25,15 @@ const Component = () => {
   const [loading, setLoading] = useState<boolean>(true); // Initially set loading to true
 
   const router = useRouter();
+  const allowedEmails = ["dasguptasebanti2003@gmail.com", "kundusubhajit73@gmail.com"];
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        if (userAuth.email != "phoenix.techo2020@gmail.com")
+        if (!allowedEmails.includes(userAuth.email as string)) {
           router.push("/denied");
-        else router.push("/dashboard/group");
+        } else {
+          router.push("/dashboard/group");
+        }
       } else {
         router.push("/login");
       }
